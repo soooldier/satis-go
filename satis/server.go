@@ -1,13 +1,14 @@
 package satis
 
 import (
+	"log"
+	"net/http"
+	"os"
+
 	"github.com/benschw/satis-go/satis/satisphp"
 	"github.com/benschw/satis-go/satis/satisphp/db"
 	"github.com/benschw/satis-go/satis/satisphp/job"
 	"github.com/gorilla/mux"
-	"log"
-	"net/http"
-	"os"
 )
 
 var _ = log.Printf
@@ -97,5 +98,7 @@ func (s *Server) initDb() error {
 	dbMgr.Db.Name = s.Name
 	dbMgr.Db.Homepage = s.Homepage
 	dbMgr.Db.RequireAll = true
+	dbMgr.Db.Archive.Directory = "/dist"
+	dbMgr.Db.Archive.Format = "zip"
 	return dbMgr.Write()
 }
