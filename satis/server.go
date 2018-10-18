@@ -84,6 +84,7 @@ func (s *Server) Run() error {
 // Sync configured values to satis repository meta data
 func (s *Server) initDb() error {
 	dbMgr := &db.SatisDbManager{Path: s.DbPath}
+	dbAcv := db.SatisArchive{Directory: "dist", Format: "zip"}
 
 	// create empty db if it doesn't exist
 	if _, err := os.Stat(s.DbPath + db.DbFile); os.IsNotExist(err) {
@@ -98,7 +99,6 @@ func (s *Server) initDb() error {
 	dbMgr.Db.Name = s.Name
 	dbMgr.Db.Homepage = s.Homepage
 	dbMgr.Db.RequireAll = true
-	dbMgr.Db.Archive.Directory = "/dist"
-	dbMgr.Db.Archive.Format = "zip"
+	dbMgr.Db.Archive = dbAcv
 	return dbMgr.Write()
 }
